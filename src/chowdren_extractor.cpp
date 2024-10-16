@@ -121,6 +121,12 @@ int parse_args(po::variables_map& opts, int argc, char** argv) {
         return 1;
     }
 
+    if (opts["format"].empty()) {
+        std::cout << "Specifying --format is required. See versions.md for more details." << std::endl;
+        optdesc_named.print(std::cout);
+        return 1;
+    }
+
     return 0;
 }
 
