@@ -30,7 +30,8 @@ For more information, please refer to <http://unlicense.org/>
 #include <iostream>
 #include <stdexcept>
 
-archive_version get_archive_version(const std::string& name) {
+archive_version get_archive_version(const std::string& name)
+{
     if (name == "v0") {
         return archive_version::V0;
     } else if (name == "v0-ctr-chow") {
@@ -43,68 +44,69 @@ archive_version get_archive_version(const std::string& name) {
         return archive_version::V2;
     } else if (name == "v3") {
         return archive_version::V3;
-    }  else {
+    } else {
         std::cerr << "get_archive_version: specified format '" << name << "' is invalid";
         return archive_version::INVALID;
     }
 }
 
-const archive_version_data& get_archive_version_data(archive_version version) {
+const archive_version_data& get_archive_version_data(const archive_version version)
+{
     // The Escapists, Freedom Planet (2015 version), Not a Hero
-    const static archive_version_data data_v0 = { 
-        image_entry_format::V0, 
-        image_container_format::ZLIB, 
-        sound_entry_format::V1, 
+    static constexpr archive_version_data data_v0 = {
+        image_entry_format::V0,
+        image_container_format::ZLIB,
+        sound_entry_format::V1,
         shader_format::PAIR,
         false
     };
 
     // Dodge Club Pocket
-    const static archive_version_data data_v0_ctr_chow = {
-        image_entry_format::V1, 
-        image_container_format::CHOWIMG, 
-        sound_entry_format::V0, 
+    static constexpr archive_version_data data_v0_ctr_chow = {
+        image_entry_format::V1,
+        image_container_format::CHOWIMG,
+        sound_entry_format::V0,
         shader_format::BUNDLE,
         false
     };
 
     // Noitu Love: Devolution
-    const static archive_version_data data_v0_ctr_zlib = { 
-        image_entry_format::V1, 
-        image_container_format::ZLIB, 
-        sound_entry_format::V0, 
+    static constexpr archive_version_data data_v0_ctr_zlib = {
+        image_entry_format::V1,
+        image_container_format::ZLIB,
+        sound_entry_format::V0,
         shader_format::BUNDLE,
         false
     };
 
     // Iconoclasts
-    const static archive_version_data data_v1 = { 
-        image_entry_format::V2, 
-        image_container_format::ZLIB, 
-        sound_entry_format::V1, 
+    static constexpr archive_version_data data_v1 = {
+        image_entry_format::V2,
+        image_container_format::ZLIB,
+        sound_entry_format::V1,
         shader_format::PAIR,
         true
     };
 
     // Baba is You
-    const static archive_version_data data_v2 = {
-        image_entry_format::V1, 
-        image_container_format::CHOWIMG, 
-        sound_entry_format::V1, 
+    static constexpr archive_version_data data_v2 = {
+        image_entry_format::V1,
+        image_container_format::CHOWIMG,
+        sound_entry_format::V1,
         shader_format::PAIR,
         true
     };
 
     // Petal Crash, Cyber Shadow, Mighty Goose
-    const static archive_version_data data_v3 = {
-        image_entry_format::V3, 
-        image_container_format::ZLIB, 
-        sound_entry_format::V2, 
+    static constexpr archive_version_data data_v3 = {
+        image_entry_format::V3,
+        image_container_format::ZLIB,
+        sound_entry_format::V2,
         shader_format::PAIR,
         true
     };
 
-    switch(version) {
+    switch (version) {
         case archive_version::V0:
             return data_v0;
         case archive_version::V0_CTR_CHOW:

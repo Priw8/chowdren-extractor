@@ -33,7 +33,8 @@ For more information, please refer to <http://unlicense.org/>
 #include <cstdint>
 #include <string>
 
-struct sound_offsets {
+struct sound_offsets
+{
     uint32_t size;
     uint32_t data;
 };
@@ -46,6 +47,6 @@ sound_entry_format get_sound_format(const std::string& name);
 const sound_offsets& get_sound_offsets(sound_entry_format format);
 
 void extract_audio(
-  asset_offsets& offsets, Buffer& buffer, 
-  const std::string& output_dir_path, sound_entry_format format
+    const asset_offsets& offsets, Buffer& buffer,
+    const std::string& output_dir_path, sound_entry_format format
 );

@@ -32,7 +32,8 @@ For more information, please refer to <http://unlicense.org/>
 #include "image_format.hpp"
 #include "util.hpp"
 
-struct parsed_image_entry {
+struct parsed_image_entry
+{
     uint16_t width;
     uint16_t height;
     uint32_t size;
@@ -44,6 +45,6 @@ void parse_image_entry(parsed_image_entry& entry, Buffer& buffer, archive_versio
 image_container_format get_image_format(const std::string& name);
 
 void extract_images(
-    asset_offsets& offsets, Buffer& buffer, 
+    const asset_offsets& offsets, Buffer& buffer,
     const std::string& output_dir_path, const archive_version_data& version_data
 );

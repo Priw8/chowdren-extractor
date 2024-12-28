@@ -27,20 +27,22 @@ For more information, please refer to <http://unlicense.org/>
 
 #pragma once
 
-enum class image_container_format {
+enum class image_container_format
+{
     INVALID,
     ZLIB,
     CHOWIMG,
     RAW
 };
 
-enum class image_entry_format {
+enum class image_entry_format
+{
     INVALID,
 
     // u16 w, u16 h, u16 ?, u16 ?, u8 ?[4], u32 size, u8 data[size]
     V0,
 
-     // u16 w, u16 h, u16 ?, u16 ?, u8 ?[5], u32 size, u8 data[size]
+    // u16 w, u16 h, u16 ?, u16 ?, u8 ?[5], u32 size, u8 data[size]
     V1,
 
     // u16 w, u16 h, u16 ?, u16 ?, u8 ex_count, {u16, u16}[ex_count], u32 size, u8 data[size]

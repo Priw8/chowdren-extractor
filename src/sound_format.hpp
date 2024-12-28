@@ -29,10 +29,10 @@ For more information, please refer to <http://unlicense.org/>
 
 // This refers to the format of entries in the archive,
 // not the format in the underlying audio container
-enum class sound_entry_format {
+enum class sound_entry_format
+{
     INVALID,
-    V0,       // Contains extra metadata, but in a different way than V2
-    V1,       // Only contains underlying container type and size
-    V2,       // Contains a bunch of extra metadata
+    V0, // Contains extra metadata, but in a different way than V2
+    V1, // Only contains underlying container type and size
+    V2, // Contains a bunch of extra metadata
 };
-

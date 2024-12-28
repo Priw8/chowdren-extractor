@@ -38,5 +38,5 @@ For more information, please refer to <http://unlicense.org/>
 using offset_range = std::optional<std::pair<uint32_t, uint32_t>>;
 
 uint32_t find_asset_offsets(
-    asset_offsets& offsets, Buffer& buffer, const archive_version_data& version_data
+    asset_offsets& offsets, const Buffer& buffer, const archive_version_data& version_data
 );

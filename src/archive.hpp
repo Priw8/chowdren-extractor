@@ -33,7 +33,8 @@ For more information, please refer to <http://unlicense.org/>
 #include <cstdint>
 #include <string>
 
-struct asset_offsets {
+struct asset_offsets
+{
     uint32_t images;
     uint32_t sounds;
     uint32_t fonts;
@@ -51,7 +52,8 @@ struct asset_offsets {
     uint32_t sizes;
 };
 
-enum class archive_version {
+enum class archive_version
+{
     INVALID,
     V0, V0_CTR_CHOW, V0_CTR_ZLIB,
     V1,
@@ -59,7 +61,8 @@ enum class archive_version {
     V3
 };
 
-struct archive_version_data {
+struct archive_version_data
+{
     image_entry_format image_entry;
     image_container_format image;
     sound_entry_format sound_entry;

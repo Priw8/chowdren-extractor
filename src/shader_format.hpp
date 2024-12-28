@@ -27,7 +27,8 @@ For more information, please refer to <http://unlicense.org/>
 
 #pragma once
 
-enum class shader_format {
-    PAIR,  // Every entry points to 2 consecutive shaders
+enum class shader_format
+{
+    PAIR, // Every entry points to 2 consecutive shaders
     BUNDLE // Entries point to a bundle containing both a vertex and fragment shader
 };

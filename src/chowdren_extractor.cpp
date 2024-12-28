@@ -33,10 +33,8 @@ For more information, please refer to <http://unlicense.org/>
 #include <boost/program_options/positional_options.hpp>
 #include <boost/program_options/value_semantic.hpp>
 #include <boost/program_options/variables_map.hpp>
-#include <boost/throw_exception.hpp>
 #include <boost/filesystem.hpp>
 #include <cstdlib>
-#include <cstring>
 #include <exception>
 #include <ios>
 #include <iostream>
@@ -59,44 +57,45 @@ namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
 
-int parse_args(po::variables_map& opts, int argc, char** argv) {
+int parse_args(po::variables_map& opts, int argc, char** argv)
+{
     po::options_description optdesc_named("Named options");
     optdesc_named.add_options()
-        (
-            "format",
-            po::value<std::string>(),
-            "see versions.md for details"
-        )
-        (
-            "probe-offsets",
-            "only find offsets and exit"
-        )
-        (
-            "no-images",
-            "skip extracting images"
-        )
-        (
-            "no-audio",
-            "skip extracting audio"
-        )
-        (
-            "no-shaders",
-            "skip extracting shaders"
-        )
-        (
-            "help",
-            "print help message"
-        );
+    (
+        "format",
+        po::value<std::string>(),
+        "see versions.md for details"
+    )
+    (
+        "probe-offsets",
+        "only find offsets and exit"
+    )
+    (
+        "no-images",
+        "skip extracting images"
+    )
+    (
+        "no-audio",
+        "skip extracting audio"
+    )
+    (
+        "no-shaders",
+        "skip extracting shaders"
+    )
+    (
+        "help",
+        "print help message"
+    );
     po::options_description optdesc_positional("Positional options");
     optdesc_positional.add_options()
-        (
-            "input",
-            "input file"
-        )
-        (
-            "output",
-            "output directory"
-        );
+    (
+        "input",
+        "input file"
+    )
+    (
+        "output",
+        "output directory"
+    );
 
     po::options_description optdesc("Available options");
     optdesc.add(optdesc_named).add(optdesc_positional);
@@ -107,10 +106,10 @@ int parse_args(po::variables_map& opts, int argc, char** argv) {
     try {
         po::store(
             po::command_line_parser(argc, argv)
-              .options(optdesc).positional(p).run(), opts);
-    
+            .options(optdesc).positional(p).run(), opts);
+
         po::notify(opts);
-    } catch(std::exception& e) {
+    } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
     }
@@ -131,7 +130,8 @@ int parse_args(po::variables_map& opts, int argc, char** argv) {
 }
 
 
-int main(int argc, char **argv) {
+int main(const int argc, char** argv)
+{
     po::variables_map opts;
     if (parse_args(opts, argc, argv)) {
         return 1;
@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
 
     auto& input_file_path = opts["input"].as<std::string>();
     auto& output_dir_path = opts["output"].as<std::string>();
-    
+
     if (!fs::is_regular_file(input_file_path)) {
         std::cerr << input_file_path << ": not a regular file" << std::endl;
         return 1;
@@ -152,44 +152,44 @@ int main(int argc, char **argv) {
     FILE* file = std::fopen(input_file_path.c_str(), "rb");
 
     Buffer input_buffer(file);
-    
+
     std::fclose(file);
 
-    archive_version version = get_archive_version(opts["format"].as<std::string>());
+    const archive_version version = get_archive_version(opts["format"].as<std::string>());
     const archive_version_data& version_data = get_archive_version_data(version);
 
-    asset_offsets offsets;
+    asset_offsets offsets{};
     if (find_asset_offsets(offsets, input_buffer, version_data)) {
         std::cerr << "failed to find asset_offsets" << std::endl;
         return 1;
     }
 
-    std::cout 
-      << "Determined following offsets:" << std::endl << std::hex;
+    std::cout
+        << "Determined following offsets:" << std::endl << std::hex;
     if (offsets.images != INVALID_OFFSET)
-        std::cout << "  - images:     0x" << offsets.images << " - 0x" << offsets.images_end 
-        << std::endl;
+        std::cout << "  - images:     0x" << offsets.images << " - 0x" << offsets.images_end
+            << std::endl;
 
     if (offsets.sounds != INVALID_OFFSET)
         std::cout << "  - sounds:     0x" << offsets.sounds << " - 0x" << offsets.sounds_end
-        << std::endl;
+            << std::endl;
 
     if (offsets.fonts != INVALID_OFFSET)
         std::cout << "  - fonts:      0x" << offsets.fonts << " - 0x" << offsets.fonts_end
-        << std::endl;
+            << std::endl;
 
     if (offsets.shaders != INVALID_OFFSET)
         std::cout << "  - shaders:    0x" << offsets.shaders << " - 0x" << offsets.shaders_end
-        << std::endl;
+            << std::endl;
 
     if (offsets.files != INVALID_OFFSET)
-        std::cout << "  - files:      0x" << offsets.files << " - 0x" << offsets.files_end 
-        << std::endl;
+        std::cout << "  - files:      0x" << offsets.files << " - 0x" << offsets.files_end
+            << std::endl;
 
     if (offsets.platform != INVALID_OFFSET)
         std::cout << "  - platform:   0x" << offsets.platform << " - 0x" << offsets.platform_end
-        << std::endl;
-    
+            << std::endl;
+
     std::cout << "  - type_sizes: 0x" << offsets.sizes << std::endl << std::dec;
 
     if (opts.count("probe-offsets")) {
@@ -199,14 +199,14 @@ int main(int argc, char **argv) {
     if (!opts.count("no-images")) {
         extract_images(offsets, input_buffer, output_dir_path, version_data);
     }
-    
+
     if (!opts.count("no-audio")) {
-        sound_entry_format format = version_data.sound_entry;
+        const sound_entry_format format = version_data.sound_entry;
         extract_audio(offsets, input_buffer, output_dir_path, format);
     }
 
     if (!opts.count("no-shaders")) {
-        extract_shaders(offsets, input_buffer, output_dir_path, version_data);    
+        extract_shaders(offsets, input_buffer, output_dir_path, version_data);
     }
 
     return 0;

@@ -31,6 +31,6 @@ For more information, please refer to <http://unlicense.org/>
 #include "util.hpp"
 
 void extract_shaders(
-    asset_offsets& offsets, Buffer& buffer, 
+    const asset_offsets& offsets, Buffer& buffer,
     const std::string& output_dir_path, const archive_version_data& version_data
 );
